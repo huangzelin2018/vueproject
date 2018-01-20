@@ -14,7 +14,7 @@ Vue.use(VueRouter);
 
 // 创建一个路由器实例
 const router = new VueRouter({
-  // mode: 'history',
+  mode: 'history',
   // base: __dirname,
   routes: routerConfig
 });

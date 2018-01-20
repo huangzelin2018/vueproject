@@ -21,7 +21,7 @@
         <td>{{ item.age }}</td>
         <td>{{ item.address }}</td>
         <td>
-          <router-link to="/user/edit">编辑</router-link>
+          <router-link :to="edit_url(item)">编辑</router-link>
           <router-link to="/user/delete">删除</router-link>
         </td>
       </tr>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  import url from "../../util/url.js";
   export default {
     data(){
       return {
@@ -38,12 +39,12 @@
       }
     },
     methods: {
-      url(item) {
-        return `/detail/${item.sound.id}`
+      edit_url(item) {
+        return `/user/edit/${item.id}`
       },
     },
     mounted () {
-      this.$ajax.get('http://www.tpvue.cn/index/index/index').then(res => {
+      this.$ajax.get(url.user_index_url).then(res => {
         this.json=res.data;
       });
     },

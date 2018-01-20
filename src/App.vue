@@ -3,7 +3,7 @@
     <ul class="nav nav-pills">
       <li role="presentation" class="active"><a href="/">Home</a></li>
       <li role="presentation">
-        <router-link to="/user/list">用户管理</router-link>
+        <router-link to="/user/index">用户管理</router-link>
       </li>
     </ul>
     <div style="margin-top: 20px">
