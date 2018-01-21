@@ -45,7 +45,7 @@
 
 <script>
   export default {
-    name: 'MoPaging',
+    // name: 'MoPaging',
     //通过props来接受从父组件传递过来的值
     props: {
 

@@ -42,7 +42,7 @@
   export default {
     data() {
       return {
-        pageSize : 5 , //每页显示20条数据
+        pageSize : 5 , //每页显示多少条数据
         currentPage : 1, //当前页码
         count : 0, //总记录数
         json: []
@@ -66,7 +66,8 @@
       getList () {
         this.$ajax.get(url.user.index, {
           params: {
-            page: this.currentPage
+            page: this.currentPage,
+            pageSize:this.pageSize
           }
         }).then(res => {
           this.json = res.data.userlist;
