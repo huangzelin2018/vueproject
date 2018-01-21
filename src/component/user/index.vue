@@ -1,7 +1,7 @@
 <template>
   <div id="list" class="container">
     <div style="margin-bottom: 10px">
-      <router-link to="/user/add" class="btn btn-success">添加</router-link>
+      <router-link to="/user/add" class="btn btn-info">添加</router-link>
     </div>
     <table class="table table-bordered">
       <thead>
@@ -21,32 +21,69 @@
         <td>{{ item.age }}</td>
         <td>{{ item.address }}</td>
         <td>
-          <router-link :to="edit_url(item)">编辑</router-link>
-          <router-link to="/user/delete">删除</router-link>
+          <button type="button" class="btn btn-success" @click="edit_url(item)">编辑</button>
+          <button type="button" class="btn btn-danger" :index="item.id" @click="delete_url(item,$event)">删除</button>
         </td>
       </tr>
       </tbody>
     </table>
+    <mo-paging
+      :page-index="currentPage"
+      :total="count"
+      :page-size="pageSize"
+      @change="pageChange">
+    </mo-paging>
   </div>
 </template>
 
 <script>
   import url from "../../util/url.js";
+  import MoPaging from "../../component/public/page";
   export default {
-    data(){
+    data() {
       return {
+        pageSize : 5 , //每页显示20条数据
+        currentPage : 1, //当前页码
+        count : 0, //总记录数
         json: []
       }
     },
     methods: {
       edit_url(item) {
-        return `/user/edit/${item.id}`
+        window.location.href = `/user/edit/${item.id}`;
       },
+      delete_url: function (item, e) {
+        this.$ajax.get(url.user.delete, {
+          params: {
+            id: item.id
+          }
+        }).then(res => {
+          $(e.target).parents('tr').remove();
+          alert('删除成功');
+        });
+      },
+      //获取数据
+      getList () {
+        this.$ajax.get(url.user.index, {
+          params: {
+            page: this.currentPage
+          }
+        }).then(res => {
+          this.json = res.data.userlist;
+          this.count = res.data.count;
+        });
+      },
+      pageChange (page) {
+        this.currentPage = page;
+        this.getList();
+      }
     },
-    mounted () {
-      this.$ajax.get(url.user_index_url).then(res => {
-        this.json=res.data;
-      });
+    mounted() {
+      this.getList();
+    },
+    //显示的声明组件
+    components : {
+      MoPaging
     },
   }
 </script>

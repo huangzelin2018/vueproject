@@ -16,12 +16,11 @@ module.exports = {
           'vue-style-loader',
           'css-loader'
         ],
-      },      {
+      }, {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: {
-          loaders: {
-          }
+          loaders: {}
           // other vue-loader options go here
         }
       },
@@ -29,6 +28,10 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader!stylus-loader'
       },
       {
         test: /\.(png|jpg|gif|svg)$/,

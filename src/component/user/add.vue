@@ -29,10 +29,10 @@
     },
     methods: {
       submit: function () {
-        var formData = JSON.stringify(this.user); // 这里才是你的表单数据
-        this.$ajax.post(url.user_add_url, formData).then(res => {
-          console.log(res.data);
-          // window.location.href = '/user/index';
+        var qs = require('querystring');
+        this.$ajax.post(url.user.add, qs.stringify(this.user)).then(res => {
+          window.location.href = '/user/index';
+          return false;
         });
       }
     }

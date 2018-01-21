@@ -1,18 +1,19 @@
 <template>
   <div  class="container" id="edit">
-    <form>
+    <form @submit.prevent="submit">
       <div class="form-group">
         <label for="name">姓名</label>
-        <input type="text" :value=" json.name " class="form-control" id="name" placeholder="姓名">
+        <input type="text" v-model="user.name" class="form-control" id="name" placeholder="姓名">
       </div>
       <div class="form-group">
         <label for="age">年龄</label>
-        <input type="text" :value=" json.age " class="form-control" id="age" placeholder="年龄">
+        <input type="text" v-model="user.age" class="form-control" id="age" placeholder="年龄">
       </div>
       <div class="form-group">
         <label for="address">地址</label>
-        <input type="text" :value=" json.address " class="form-control" id="address" placeholder="地址">
+        <input type="text" v-model="user.address" class="form-control" id="address" placeholder="地址">
       </div>
+      <input type="hidden" v-model="user.id" />
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
   </div>
@@ -24,17 +25,26 @@
   export default {
     data() {
       return {
-        json: {}
+        user: {}
       }
     },
     mounted: function () {
-      this.$ajax.get(url.user_edit_url, {
+      this.$ajax.get(url.user.get, {
         params: {
           id: this.$route.params.id
         }
       }).then(res => {
-          this.json = res.data;
+        this.user = res.data;
+      });
+    },
+    methods: {
+      submit: function () {
+        var qs = require('querystring');
+        this.$ajax.post(url.user.edit, qs.stringify(this.user)).then(res => {
+          window.location.href = '/user/index';
+          return false;
         });
+      }
     }
   }
 </script>
